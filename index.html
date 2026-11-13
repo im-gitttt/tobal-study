@@ -1,314 +1,736 @@
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>My Portfolio</title>
+  <meta name="theme-color" content="#f3f0e8">
+  <meta name="description" content="주식 분석과 시계열 데이터에 관심을 가진 데이터 분석가 지망생의 포트폴리오입니다.">
+  <title>Portfolio — Data & Insights</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --paper: #f3f0e8;
+      --surface: #fffefa;
+      --ink: #191a17;
+      --muted: #777970;
+      --line: #deded4;
+      --lime: #c8f36b;
+      --orange: #ff6847;
+      --dark: #20221e;
+      --mono: "DM Mono", monospace;
+      --sans: "DM Sans", "Noto Sans KR", sans-serif;
+      --container: 1160px;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
     body {
-      background: #0f172a;
-      color: #f8fafc;
-      font-family: Arial, sans-serif;
-      line-height: 1.6;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.menu-open { overflow: hidden; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    ::selection { background: var(--lime); color: var(--ink); }
+
+    .container { width: min(var(--container), calc(100% - 64px)); margin: 0 auto; }
+    .mono { font-family: var(--mono); }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--muted);
+      font: 500 11px var(--mono);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--orange);
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(243, 240, 232, .9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(25, 26, 23, .09);
+    }
+    .nav-wrap {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .brand {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -.07em;
+    }
+    .brand span { color: var(--orange); }
+    .nav-links { display: flex; align-items: center; gap: 34px; }
+    .nav-links a {
+      color: #55574f;
+      font-size: 13px;
+      font-weight: 600;
+      transition: color .2s ease;
+    }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 11px 16px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      transition: background .2s, color .2s, transform .2s;
+    }
+    .nav-cta:hover { background: var(--ink); color: white; transform: translateY(-2px); }
+    .menu-toggle {
+      display: none;
+      width: 42px;
+      height: 42px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      background: var(--surface);
+      color: var(--ink);
+      cursor: pointer;
     }
 
-    header {
+    /* Hero */
+    .hero { padding: 92px 0 86px; }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.25fr .75fr;
+      align-items: center;
+      gap: 64px;
+    }
+    .hero h1 {
+      max-width: 760px;
+      margin: 25px 0 24px;
+      font-size: clamp(48px, 7.3vw, 92px);
+      line-height: 1.12;
+      letter-spacing: -.075em;
+      font-weight: 800;
+    }
+    .hero h1 .accent {
+      display: inline-block;
+      position: relative;
+      z-index: 0;
+      white-space: nowrap;
+    }
+    .hero h1 .accent::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 7px;
+      height: 19px;
+      background: var(--lime);
+      z-index: -1;
+      transform: rotate(-1.5deg);
+    }
+    .hero-copy {
+      max-width: 550px;
+      color: #686b62;
+      font-size: 16px;
+      word-break: keep-all;
+    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 34px; }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 49px;
+      padding: 0 20px;
+      border: 1px solid var(--ink);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform .2s, background .2s, color .2s;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .btn-primary { background: var(--ink); color: white; }
+    .btn-primary:hover { background: var(--orange); border-color: var(--orange); }
+    .btn-secondary:hover { background: var(--lime); }
+
+    .visual-card {
+      position: relative;
+      min-height: 390px;
+      overflow: hidden;
+      padding: 25px;
+      border-radius: 8px;
+      background: var(--dark);
+      color: white;
+      box-shadow: 16px 18px 0 rgba(25, 26, 23, .08);
+    }
+    .visual-top { display: flex; align-items: center; justify-content: space-between; }
+    .visual-label { color: #b9beb0; font: 11px var(--mono); letter-spacing: .1em; }
+    .live-dot {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--lime);
+      font: 10px var(--mono);
+    }
+    .live-dot::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 12px var(--lime);
+    }
+    .chart-heading { margin-top: 38px; }
+    .chart-heading strong { display: block; font-size: 34px; letter-spacing: -.06em; }
+    .chart-heading span { color: #a8ad9f; font-size: 12px; }
+    .chart {
+      position: absolute;
+      left: 20px;
+      right: 20px;
+      bottom: 60px;
+      width: calc(100% - 40px);
+      height: 150px;
+    }
+    .chart-grid line { stroke: #454a40; stroke-width: 1; stroke-dasharray: 3 6; }
+    .chart-area { fill: url(#chartFill); }
+    .chart-line {
+      fill: none;
+      stroke: var(--lime);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .chart-foot {
+      position: absolute;
+      left: 25px;
+      right: 25px;
+      bottom: 22px;
       display: flex;
       justify-content: space-between;
-      align-items: center;
-      padding: 24px 10%;
-      border-bottom: 1px solid #334155;
+      color: #9ca294;
+      font: 10px var(--mono);
+    }
+    .floating-tag {
+      position: absolute;
+      right: -14px;
+      bottom: 30px;
+      padding: 12px 16px;
+      background: var(--orange);
+      color: var(--ink);
+      font: 11px var(--mono);
+      transform: rotate(4deg);
+      box-shadow: 4px 5px 0 rgba(0,0,0,.12);
     }
 
-    .logo {
-      font-size: 22px;
-      font-weight: bold;
-      color: #38bdf8;
-    }
-
-    nav {
+    /* Shared sections */
+    .section { padding: 105px 0; border-top: 1px solid var(--line); }
+    .section-head {
       display: flex;
-      gap: 25px;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 45px;
     }
-
-    nav a {
-      color: #cbd5e1;
-      transition: 0.3s;
-    }
-
-    nav a:hover {
-      color: #38bdf8;
-    }
-
-    section {
-      padding: 100px 10%;
-    }
-
-    .hero {
-      min-height: 75vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-
-    .hero p:first-child {
-      color: #38bdf8;
-      font-weight: bold;
-    }
-
-    h1 {
-      font-size: clamp(38px, 6vw, 65px);
-      margin: 20px 0;
-      line-height: 1.2;
-    }
-
-    .highlight {
-      color: #38bdf8;
-    }
-
-    .description {
-      max-width: 600px;
-      color: #94a3b8;
-      font-size: 18px;
-    }
-
-    .button {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 12px 25px;
-      background: #38bdf8;
-      color: #0f172a;
-      border-radius: 8px;
-      font-weight: bold;
-      width: fit-content;
-      transition: 0.3s;
-    }
-
-    .button:hover {
-      background: #7dd3fc;
-      transform: translateY(-3px);
-    }
-
     .section-title {
-      font-size: 32px;
-      margin-bottom: 35px;
+      margin-top: 12px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.15;
+      letter-spacing: -.065em;
     }
+    .section-note { max-width: 330px; color: var(--muted); font-size: 13px; }
 
-    .section-title span {
-      color: #38bdf8;
-    }
-
-    .about-text {
-      color: #94a3b8;
-      max-width: 750px;
-      font-size: 17px;
-    }
-
-    .skills {
+    /* About */
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 80px; }
+    .about-stamp {
       display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .skill {
-      background: #1e293b;
-      border: 1px solid #334155;
-      padding: 12px 22px;
+      min-height: 250px;
+      align-items: center;
+      justify-content: center;
       border-radius: 8px;
-      color: #7dd3fc;
+      background: var(--lime);
+      color: var(--ink);
+      font-size: clamp(54px, 8vw, 100px);
+      font-weight: 800;
+      letter-spacing: -.1em;
     }
-
-    .projects {
+    .about-content h3 { max-width: 620px; margin-bottom: 20px; font-size: 25px; line-height: 1.45; letter-spacing: -.05em; }
+    .about-content p { max-width: 650px; color: var(--muted); font-size: 14px; word-break: keep-all; }
+    .about-meta {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      margin-top: 34px;
+      padding-top: 25px;
+      border-top: 1px solid var(--line);
     }
+    .meta-item span { display: block; color: var(--muted); font: 10px var(--mono); letter-spacing: .08em; }
+    .meta-item strong { display: block; margin-top: 6px; font-size: 14px; }
 
+    /* Skills */
+    .skills-section { background: var(--dark); color: white; }
+    .skills-section .eyebrow { color: #b4b9ad; }
+    .skills-section .section-note { color: #a3a99d; }
+    .skills-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+    .skill-card {
+      min-height: 145px;
+      padding: 22px;
+      border: 1px solid #454940;
+      border-radius: 7px;
+      transition: background .25s, border-color .25s, transform .25s;
+    }
+    .skill-card:hover { background: #2b3027; border-color: var(--lime); transform: translateY(-4px); }
+    .skill-number { color: var(--lime); font: 11px var(--mono); }
+    .skill-card h3 { margin-top: 22px; font-size: 17px; }
+    .skill-card p { margin-top: 5px; color: #a3a99d; font-size: 11px; }
+
+    /* Projects */
+    .project-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
     .project-card {
-      background: #1e293b;
-      border: 1px solid #334155;
+      display: flex;
+      min-height: 285px;
+      flex-direction: column;
       padding: 25px;
-      border-radius: 12px;
-      transition: 0.3s;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      transition: transform .25s, box-shadow .25s, border-color .25s;
+    }
+    .project-card:hover { transform: translateY(-6px); border-color: var(--ink); box-shadow: 8px 10px 0 rgba(25,26,23,.07); }
+    .project-top { display: flex; align-items: center; justify-content: space-between; }
+    .project-index { color: var(--orange); font: 12px var(--mono); }
+    .project-icon {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--paper);
+      font-size: 19px;
+    }
+    .project-card h3 { margin-top: 38px; font-size: 20px; letter-spacing: -.04em; }
+    .project-card p { margin-top: 10px; color: var(--muted); font-size: 13px; word-break: keep-all; }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 24px; }
+    .project-tags span { padding: 5px 9px; border: 1px solid var(--line); border-radius: 99px; color: #686b62; font: 10px var(--mono); }
+
+    /* Focus */
+    .focus-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+    .focus-item { min-height: 190px; padding: 26px; background: var(--paper); }
+    .focus-item .mono { color: var(--orange); font-size: 11px; }
+    .focus-item h3 { margin-top: 22px; font-size: 19px; letter-spacing: -.04em; }
+    .focus-item p { margin-top: 8px; color: var(--muted); font-size: 12px; }
+
+    /* Contact */
+    .contact-section { padding: 90px 0; background: var(--lime); }
+    .contact-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; }
+    .contact-inner .eyebrow { color: #4d5a34; }
+    .contact-inner .eyebrow::before { background: var(--orange); }
+    .contact-inner h2 { max-width: 700px; margin-top: 15px; font-size: clamp(36px, 5.5vw, 62px); line-height: 1.12; letter-spacing: -.07em; }
+    .contact-link {
+      display: inline-flex;
+      flex-shrink: 0;
+      align-items: center;
+      gap: 12px;
+      padding: 17px 22px;
+      border-radius: 99px;
+      background: var(--ink);
+      color: white;
+      font-size: 13px;
+      font-weight: 700;
+      transition: transform .2s, background .2s;
+    }
+    .contact-link:hover { transform: translateY(-4px); background: var(--orange); color: var(--ink); }
+
+    footer { padding: 25px 0; background: var(--dark); color: #a3a99d; }
+    .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 20px; font-size: 11px; }
+    .footer-brand { color: white; font-size: 15px; font-weight: 800; letter-spacing: -.06em; }
+    .footer-links { display: flex; gap: 18px; }
+    .footer-links a:hover { color: var(--lime); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(22px); transition: opacity .65s ease, transform .65s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr .8fr; gap: 30px; }
+      .visual-card { min-height: 350px; }
+      .about-grid { gap: 40px; }
+      .skills-grid { grid-template-columns: repeat(2, 1fr); }
+      .project-list { grid-template-columns: repeat(2, 1fr); }
+      .project-card:last-child { grid-column: 1 / -1; min-height: 230px; }
     }
 
-    .project-card:hover {
-      transform: translateY(-5px);
-      border-color: #38bdf8;
-    }
-
-    .project-card h3 {
-      margin-bottom: 12px;
-      color: #38bdf8;
-    }
-
-    .project-card p {
-      color: #94a3b8;
-      font-size: 15px;
-    }
-
-    .contact {
-      text-align: center;
-      background: #1e293b;
-    }
-
-    .contact p {
-      color: #94a3b8;
-      margin-top: 10px;
-    }
-
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #64748b;
-      border-top: 1px solid #334155;
-    }
-
-    @media (max-width: 600px) {
-      header {
+    @media (max-width: 640px) {
+      .container { width: min(100% - 40px, var(--container)); }
+      .nav-wrap { min-height: 66px; }
+      .menu-toggle { display: grid; place-items: center; position: relative; z-index: 22; }
+      .nav-links {
+        position: fixed;
+        inset: 0;
+        display: flex;
         flex-direction: column;
-        gap: 15px;
+        align-items: flex-start;
+        justify-content: center;
+        gap: 25px;
+        padding: 40px;
+        background: var(--paper);
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: opacity .25s, visibility .25s, transform .25s;
       }
+      .nav-links.open { opacity: 1; visibility: visible; transform: translateY(0); }
+      .nav-links a { font-size: 27px; font-weight: 700; letter-spacing: -.05em; }
+      .nav-cta { margin-top: 8px; font-size: 14px !important; }
+      .hero { padding: 70px 0 65px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 45px; }
+      .hero h1 { margin: 21px 0; font-size: clamp(43px, 12vw, 68px); }
+      .hero-copy { font-size: 14px; }
+      .visual-card { min-height: 330px; }
+      .section { padding: 75px 0; }
+      .section-head { display: block; margin-bottom: 30px; }
+      .section-note { margin-top: 15px; }
+      .about-grid { grid-template-columns: 1fr; gap: 28px; }
+      .about-stamp { min-height: 175px; }
+      .about-content h3 { font-size: 21px; }
+      .about-meta { gap: 14px; }
+      .skills-grid { gap: 9px; }
+      .skill-card { min-height: 125px; padding: 16px; }
+      .skill-card h3 { margin-top: 16px; font-size: 15px; }
+      .project-list { grid-template-columns: 1fr; }
+      .project-card, .project-card:last-child { grid-column: auto; min-height: 245px; }
+      .focus-grid { grid-template-columns: 1fr; }
+      .focus-item { min-height: 150px; }
+      .contact-section { padding: 70px 0; }
+      .contact-inner { align-items: flex-start; flex-direction: column; }
+      .contact-inner h2 { font-size: clamp(38px, 11vw, 54px); }
+      .footer-inner { align-items: flex-start; flex-direction: column; }
+    }
 
-      nav {
-        gap: 12px;
-        font-size: 13px;
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: .01ms !important;
+        animation-duration: .01ms !important;
       }
-
-      section {
-        padding: 75px 7%;
-      }
+      .reveal { opacity: 1; transform: none; }
     }
   </style>
 </head>
 
 <body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#home" aria-label="처음으로">PORTFOLIO<span>.</span></a>
 
-  <header>
-    <div class="logo">My Portfolio.</div>
+      <nav class="nav-links" id="navLinks" aria-label="주요 메뉴">
+        <a href="#about">About</a>
+        <a href="#skills">Skills</a>
+        <a href="#projects">Projects</a>
+        <a href="#focus">Focus</a>
+        <a class="nav-cta" href="https://github.com/im-gitttt" target="_blank" rel="noopener noreferrer">
+          GitHub <span aria-hidden="true">↗</span>
+        </a>
+      </nav>
 
-    <nav>
-      <a href="#about">About</a>
-      <a href="#skills">Skills</a>
-      <a href="#projects">Projects</a>
-      <a href="#contact">Contact</a>
-    </nav>
+      <button class="menu-toggle" id="menuToggle" type="button" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navLinks">
+        <svg id="menuIcon" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M4 7h16M4 12h16M4 17h16"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
-  <section class="hero">
-    <p>HELLO, I'M A DATA ANALYST</p>
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="reveal">
+          <span class="eyebrow">Data · Finance · Technology</span>
+          <h1>데이터를 읽고,<br><span class="accent">가치를 발견하다.</span></h1>
+          <p class="hero-copy">
+            안녕하세요. 컴퓨터공학을 공부하며 데이터 분석가를 목표로 성장하고 있습니다.
+            주식 시장의 흐름과 시계열 데이터 속에서 의미 있는 패턴을 찾는 일에 관심이 있습니다.
+          </p>
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="#projects">프로젝트 살펴보기 <span aria-hidden="true">↗</span></a>
+            <a class="btn btn-secondary" href="#about">더 알아보기 <span aria-hidden="true">↓</span></a>
+          </div>
+        </div>
 
-    <h1>
-      데이터로 세상을<br>
-      <span class="highlight">이해하고 분석합니다.</span>
-    </h1>
-
-    <p class="description">
-      데이터를 통해 의미 있는 인사이트를 발견하고,
-      문제를 해결하는 과정을 즐기는 개발자입니다.
-      특히 주식 분석과 시계열 데이터에 관심이 있습니다.
-    </p>
-
-    <a href="#projects" class="button">프로젝트 보기 →</a>
-  </section>
-
-  <section id="about">
-    <h2 class="section-title">
-      <span>01.</span> About Me
-    </h2>
-
-    <p class="about-text">
-      안녕하세요! 컴퓨터공학을 공부하며 데이터 분석가를
-      목표로 성장하고 있습니다.<br><br>
-
-      Python과 SQL을 활용한 데이터 처리 및 분석을 공부하고 있으며,
-      금융 데이터와 주식 시장의 흐름을 분석하는 것에 관심이 있습니다.<br><br>
-
-      단순히 데이터를 수집하는 것을 넘어,
-      데이터 속에서 의미 있는 패턴과 인사이트를 발견하고 싶습니다.
-    </p>
-  </section>
-
-  <section id="skills">
-    <h2 class="section-title">
-      <span>02.</span> Tech Stack
-    </h2>
-
-    <div class="skills">
-      <div class="skill">Python</div>
-      <div class="skill">SQL</div>
-      <div class="skill">PostgreSQL</div>
-      <div class="skill">Pandas</div>
-      <div class="skill">NumPy</div>
-      <div class="skill">Tableau</div>
-      <div class="skill">Git</div>
-      <div class="skill">HTML / CSS</div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2 class="section-title">
-      <span>03.</span> Projects
-    </h2>
-
-    <div class="projects">
-
-      <div class="project-card">
-        <h3>Stock Analysis</h3>
-        <p>
-          주식 시장 데이터를 수집하고 분석하여
-          가격 변동과 투자 지표를 탐색하는 프로젝트입니다.
-        </p>
+        <div class="visual-card reveal" aria-label="데이터 분석을 표현한 장식용 그래프">
+          <div class="visual-top">
+            <span class="visual-label">MARKET / DATA STUDY</span>
+            <span class="live-dot">EXPLORING</span>
+          </div>
+          <div class="chart-heading">
+            <strong>Find the signal.</strong>
+            <span>관찰하고, 분석하고, 해석하기</span>
+          </div>
+          <svg class="chart" viewBox="0 0 420 150" preserveAspectRatio="none" role="img" aria-label="상승과 하락이 반복되는 데이터 추세 그래프">
+            <defs>
+              <linearGradient id="chartFill" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0%" stop-color="#c8f36b" stop-opacity=".28"/>
+                <stop offset="100%" stop-color="#c8f36b" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g class="chart-grid">
+              <line x1="0" y1="25" x2="420" y2="25"/>
+              <line x1="0" y1="75" x2="420" y2="75"/>
+              <line x1="0" y1="125" x2="420" y2="125"/>
+            </g>
+            <path class="chart-area" d="M0 120 L35 103 L65 111 L100 70 L130 84 L165 55 L195 72 L230 42 L265 59 L300 30 L335 48 L370 18 L420 9 L420 150 L0 150 Z"/>
+            <path class="chart-line" d="M0 120 L35 103 L65 111 L100 70 L130 84 L165 55 L195 72 L230 42 L265 59 L300 30 L335 48 L370 18 L420 9"/>
+            <circle cx="420" cy="9" r="5" fill="#c8f36b"/>
+          </svg>
+          <div class="chart-foot"><span>OBSERVE</span><span>ANALYZE</span><span>INSIGHT</span></div>
+          <span class="floating-tag">DATA WITH PURPOSE ✳</span>
+        </div>
       </div>
+    </section>
 
-      <div class="project-card">
-        <h3>Time Series Analysis</h3>
-        <p>
-          시계열 데이터를 활용하여 시간에 따른
-          변화와 추세 및 패턴을 분석합니다.
-        </p>
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">01 / About me</span>
+            <h2 class="section-title">호기심을 분석으로,<br>분석을 인사이트로.</h2>
+          </div>
+          <p class="section-note">배우고 기록하고 직접 만들어 보며 데이터 분석 역량을 쌓아가고 있습니다.</p>
+        </div>
+
+        <div class="about-grid reveal">
+          <div class="about-stamp" aria-label="데이터를 탐구하는 사람">DATA<br>MINDED.</div>
+          <div class="about-content">
+            <h3>숫자 뒤에 숨은 흐름을 발견하는 사람이 되고 싶습니다.</h3>
+            <p>
+              컴퓨터공학을 전공하며 Python과 SQL을 중심으로 데이터 처리와 분석을 공부하고 있습니다.
+              특히 금융 데이터와 주식 시장의 움직임, 시간에 따라 변화하는 데이터의 추세와 패턴에 관심이 있습니다.
+              작은 질문에서 출발해 데이터를 살펴보고, 근거를 바탕으로 설명하는 분석가로 성장하고자 합니다.
+            </p>
+            <div class="about-meta">
+              <div class="meta-item">
+                <span>FIELD OF INTEREST</span>
+                <strong>주식 분석 · 시계열 데이터</strong>
+              </div>
+              <div class="meta-item">
+                <span>LEARNING</span>
+                <strong>Python · SQL · Visualization</strong>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    </section>
 
-      <div class="project-card">
-        <h3>Data Visualization</h3>
-        <p>
-          데이터를 시각화하고 그래프를 통해
-          복잡한 정보를 직관적으로 전달합니다.
-        </p>
+    <section class="section skills-section" id="skills">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">02 / Toolbox</span>
+            <h2 class="section-title">Tools I work with.</h2>
+          </div>
+          <p class="section-note">현재 학습하고 활용 경험을 쌓고 있는 기술과 도구입니다.</p>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card reveal">
+            <span class="skill-number">01 / LANGUAGE</span>
+            <h3>Python</h3>
+            <p>데이터 처리와 분석 기초</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">02 / DATABASE</span>
+            <h3>SQL · PostgreSQL</h3>
+            <p>쿼리 작성과 데이터 조회</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">03 / ANALYSIS</span>
+            <h3>Pandas · NumPy</h3>
+            <p>데이터 정제와 수치 연산</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">04 / VISUALIZATION</span>
+            <h3>Tableau</h3>
+            <p>데이터 시각화와 인사이트 전달</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">05 / VERSION CONTROL</span>
+            <h3>Git · GitHub</h3>
+            <p>버전 관리와 작업 기록</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">06 / WEB</span>
+            <h3>HTML · CSS</h3>
+            <p>웹 페이지 구조와 스타일링</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">07 / STUDY</span>
+            <h3>Statistics</h3>
+            <p>기초 통계와 추세 해석</p>
+          </article>
+          <article class="skill-card reveal">
+            <span class="skill-number">08 / INTEREST</span>
+            <h3>Time Series</h3>
+            <p>시간 데이터의 패턴 탐색</p>
+          </article>
+        </div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <section class="section" id="projects">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">03 / Selected work</span>
+            <h2 class="section-title">Learning by doing.</h2>
+          </div>
+          <p class="section-note">관심 분야를 바탕으로 학습하고 발전시켜 나갈 프로젝트 주제입니다.</p>
+        </div>
 
-  <section id="contact" class="contact">
-    <h2 class="section-title">Contact Me</h2>
-    <p>함께 성장하고 새로운 프로젝트를 만들어 가고 싶습니다.</p>
+        <div class="project-list">
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-index">PROJECT / 01</span>
+              <span class="project-icon" aria-hidden="true">↗</span>
+            </div>
+            <h3>Stock Data Analysis</h3>
+            <p>주가 데이터를 살펴보고 가격 변화와 거래 흐름을 분석해 금융 데이터에 대한 이해를 넓힙니다.</p>
+            <div class="project-tags"><span>Python</span><span>Pandas</span><span>Finance</span></div>
+          </article>
 
-    <a href="mailto:your-email@example.com" class="button" >
-      이메일 보내기
-    </a>
-  </section>
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-index">PROJECT / 02</span>
+              <span class="project-icon" aria-hidden="true">⌁</span>
+            </div>
+            <h3>Time Series Study</h3>
+            <p>시간에 따라 축적되는 데이터의 추세와 계절성, 변동 패턴을 탐색하고 해석하는 연습을 합니다.</p>
+            <div class="project-tags"><span>Time Series</span><span>Statistics</span><span>Python</span></div>
+          </article>
+
+          <article class="project-card reveal">
+            <div class="project-top">
+              <span class="project-index">PROJECT / 03</span>
+              <span class="project-icon" aria-hidden="true">▦</span>
+            </div>
+            <h3>Data Visualization</h3>
+            <p>데이터를 목적에 맞는 차트로 표현하고 핵심 메시지를 명확하게 전달하는 시각화를 연습합니다.</p>
+            <div class="project-tags"><span>Tableau</span><span>SQL</span><span>Dashboard</span></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="focus">
+      <div class="container">
+        <div class="section-head reveal">
+          <div>
+            <span class="eyebrow">04 / What drives me</span>
+            <h2 class="section-title">Curious about.</h2>
+          </div>
+          <p class="section-note">앞으로 더 깊게 탐구하고 싶은 세 가지 주제입니다.</p>
+        </div>
+
+        <div class="focus-grid reveal">
+          <article class="focus-item">
+            <span class="mono">01 — FINANCE</span>
+            <h3>Financial Markets</h3>
+            <p>시장 데이터와 가격 움직임을 관찰하며 변화의 원인을 탐색합니다.</p>
+          </article>
+          <article class="focus-item">
+            <span class="mono">02 — TIME</span>
+            <h3>Time Series</h3>
+            <p>시간의 흐름 속에 나타나는 추세와 반복되는 패턴을 공부합니다.</p>
+          </article>
+          <article class="focus-item">
+            <span class="mono">03 — INSIGHT</span>
+            <h3>Data Storytelling</h3>
+            <p>분석 결과를 이해하기 쉬운 시각 자료와 이야기로 전달합니다.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="container contact-inner reveal">
+        <div>
+          <span class="eyebrow">Let's connect</span>
+          <h2>좋은 질문은<br>좋은 발견으로 이어집니다.</h2>
+        </div>
+        <a class="contact-link" href="https://github.com/im-gitttt" target="_blank" rel="noopener noreferrer">
+          GitHub에서 만나기 <span aria-hidden="true">↗</span>
+        </a>
+      </div>
+    </section>
+  </main>
 
   <footer>
-    © 2026 My Portfolio. All rights reserved.
+    <div class="container footer-inner">
+      <a class="footer-brand" href="#home">PORTFOLIO<span style="color: var(--orange)">.</span></a>
+      <span>Learning, building, and finding insights. © <span id="year"></span></span>
+      <div class="footer-links">
+        <a href="https://github.com/im-gitttt" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+        <a href="#home">Back to top ↑</a>
+      </div>
+    </div>
   </footer>
 
+  <script>
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    const menuIcon = document.getElementById("menuIcon");
+
+    function closeMenu() {
+      navLinks.classList.remove("open");
+      document.body.classList.remove("menu-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      menuToggle.setAttribute("aria-label", "메뉴 열기");
+      menuIcon.innerHTML = '<path d="M4 7h16M4 12h16M4 17h16"/>';
+    }
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = navLinks.classList.toggle("open");
+      document.body.classList.toggle("menu-open", isOpen);
+      menuToggle.setAttribute("aria-expanded", String(isOpen));
+      menuToggle.setAttribute("aria-label", isOpen ? "메뉴 닫기" : "메뉴 열기");
+      menuIcon.innerHTML = isOpen
+        ? '<path d="m6 6 12 12M18 6 6 18"/>'
+        : '<path d="M4 7h16M4 12h16M4 17h16"/>';
+    });
+
+    navLinks.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll(".reveal").forEach((element) => {
+      revealObserver.observe(element);
+    });
+  </script>
 </body>
 </html>
